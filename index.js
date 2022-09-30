@@ -11,17 +11,15 @@ const orders = []
 
 app.post('/orders', (request, response) => {
     const {burger, name} = request.body
+    if(burger === "Selecione um pedido" || name === "") {
+        return response.status(400).json()
+    }
     const newOrder = {id: uuidv4(), burger, name}
     orders.push(newOrder)
     return response.status(201).json(newOrder)
 })
 app.get('/orders',(request, response)=> {
-    const index = orders.findIndex(order => order.burger === "Selecione um pedido" || order.name === "")
-    if(index < 0 ){
         return response.json(orders)
-    }
-    orders.splice(index,1)
-    return response.json(orders)
     
 })
 app.delete('/orders/:id',(request, response)=> {
